@@ -1,34 +1,38 @@
-## Put comments here that give an overall description of what your
-## functions do
+# makeCacheMatrix is a function that returns a list of functions
+# Its puspose is to store a martix and a cached value of the inverse of the matrix
+# Contains the following functions:
+# * set             set the value of a matrix
+# * get             get the value of a matrix
+# * setinverse      set the cached value (inverse of the matrix)
+# * getinverse      get the cached value (inverse of the matrix)
 
-## Write a short comment describing this function
 
 makeCacheMatrix <- function(x = matrix()) {
   
   ## Initialize the Inverse property
-  i <- NULL
+  m <- NULL
   
   ## Set the value of the matrix
   set <- function(matrix) {
-    m <<- matrix
-    i <<- NULL
+    x <<- matrix
+    m <<- NULL
   }
   
   ## Method to get the matrix
   get <- function() {
     
-    ## Return the matrix
-    m                
+    ## Returns the original matrix
+    x                
   }
   
-  ## Set the Inverse of the matrix
-  setinverse <- function(inverse) {
-    i <<- inverse
+  ## Sets the Inverse of the matrix using solve function
+  setinverse <- function(solve) {
+    m <<- solve
   }
   
-  ## Get the inverse of the matrix
+  ## Returns the matrix stored in the cache
   getinverse <-function() {
-    i
+    m
   }
   
   ## List of the methods
@@ -40,7 +44,21 @@ makeCacheMatrix <- function(x = matrix()) {
 
 
 ## Write a short comment describing this function
+## cacheSolve function computes, caches and returns matrix inverse
 
-cacheSolve <- function(x, ...) {
+cacheSolve <- function(x = matrix(), ...) {
         ## Return a matrix that is the inverse of 'x'
+  
+  m <- x$getinverse()              ## Gets the cached value
+  
+  ## Checks cache for the matrix and returns the same if it exists
+  if( !is.null(m)) {
+    message("getting cached data")
+    return(m)
+  }
+  
+  matrix <- x$get()                ## Gets the original matrix
+  m <- solve(matrix, ...)          ## Calculate the inverse of the matrix
+  x$setinverse(m)                  ## Sets the inverse of the matrix in the cache
+  m
 }
